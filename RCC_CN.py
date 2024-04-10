@@ -39,7 +39,7 @@ with st.expander("筛选"):
         # Get unique areas
         unique_regions = df['区域'].unique()
         # Allow users to select multiple regions
-        selected_regions = st.multiselect('选择区域', unique_regions, help="选择一个选项")
+        selected_regions = st.multiselect('选择区域', unique_regions)
 
         # Determine provinces based on selected regions
         if selected_regions:
