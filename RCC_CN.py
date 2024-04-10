@@ -188,7 +188,7 @@ else:
     timeline_data = filtered_df.groupby('Announcement Time by Year and Month').size().reset_index(name='No. of Projects')
 
     # Create a line chart showing the distribution of announcements over time
-    fig = px.line(timeline_data, x='公布时间', y='项目数量', 
+    fig = px.line(timeline_data, x='Announcement Time by Year and Month', y='No. of Projects', 
                 title='项目数量变化趋势')
 
     # Show the line chart
