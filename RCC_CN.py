@@ -185,7 +185,7 @@ else:
     filtered_df['Announcement Time by Year and Month'] = filtered_df['公布时间'].dt.strftime('%y-%m')
 
     # Group the data by 'Announcement time by year and month' and count the number of announcements for each period
-    timeline_data = filtered_df.groupby('公布时间').size().reset_index(name='项目数量')
+    timeline_data = filtered_df.groupby('Announcement Time by Year and Month').size().reset_index(name='No. of Projects')
 
     # Create a line chart showing the distribution of announcements over time
     fig = px.line(timeline_data, x='Announcement Time by Year and Month', y='No. of Projects', 
