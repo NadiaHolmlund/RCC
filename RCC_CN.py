@@ -163,7 +163,7 @@ else:
         # Filter the dataframe to include only the top 10 provinces
         top_10_provinces = filtered_df['省份'].value_counts().nlargest(10).reset_index()
         # Create a bar chart showing the distribution of provinces
-        fig = px.bar(top_10_provinces, x='count', y='省份', title='项目最多省份排列')
+        fig = px.bar(top_10_provinces, x='count', y='省份', title='项目最多省份排列', labels={'count': '计数'})
         # Show the bar chart
         st.plotly_chart(fig, use_container_width=True)
 
@@ -171,7 +171,7 @@ else:
         # Filter the dataframe to include only the top 10 cities
         top_10_cities = filtered_df['城市'].value_counts().nlargest(10).reset_index()
         # Create a bar chart showing the distribution of cities
-        fig = px.bar(top_10_cities, x='count', y='城市', title='项目最多城市排列')
+        fig = px.bar(top_10_cities, x='count', y='城市', title='项目最多城市排列', labels={'count': '计数'}))
         # Show the bar chart
         st.plotly_chart(fig, use_container_width=True)
 
