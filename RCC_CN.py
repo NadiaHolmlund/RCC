@@ -26,12 +26,12 @@ df = read_objects()
 
 
 # Setting up the expander for filtering the dataset
-with st.expander("Filter View"):
+with st.expander("筛选"):
 
     # Setting up the dashboard and viz
 
     # Add a text input for free text search
-    text_search = st.text_input("Search Project Descriptions")
+    text_search = st.text_input("搜索项目描述")
 
     col1, col2 = st.columns(2)
 
@@ -39,7 +39,7 @@ with st.expander("Filter View"):
         # Get unique areas
         unique_regions = df['区域'].unique()
         # Allow users to select multiple regions
-        selected_regions = st.multiselect('Select Regions', unique_regions)
+        selected_regions = st.multiselect('选择区域', unique_regions)
 
         # Determine provinces based on selected regions
         if selected_regions:
@@ -47,7 +47,7 @@ with st.expander("Filter View"):
         else:
             unique_provinces = df['省份'].unique()
         # Allow users to select multiple provinces
-        selected_provinces = st.multiselect('Select Provinces', unique_provinces)
+        selected_provinces = st.multiselect('选择省份', unique_provinces)
 
         # Determine cities based on selected provinces
         if selected_provinces:
@@ -55,23 +55,23 @@ with st.expander("Filter View"):
         else:
             unique_cities = df['城市'].unique()
         # Allow users to select multiple cities
-        selected_cities = st.multiselect('Select Cities', unique_cities)
+        selected_cities = st.multiselect('选择城市', unique_cities)
 
     with col2:
         # Get unique search terms
         unique_search_terms = df['搜索词'].unique()
         # Allow users to select multiple search terms
-        selected_search_terms = st.multiselect('Select Field of Interest', unique_search_terms)
+        selected_search_terms = st.multiselect('选择项目领域', unique_search_terms)
 
         # Get unique project stages
         unique_project_stages = df['项目阶段'].unique()
         # Allow users to select multiple project stages
-        selected_project_stages = st.multiselect('Select Stage of Project', unique_project_stages)
+        selected_project_stages = st.multiselect('选择项目阶段', unique_project_stages)
 
         # Get unique categories
         unique_categories = set('/'.join(df['行业分类']).split('/'))
         # Allow users to select multiple categories
-        selected_categories = st.multiselect('Select Categories', list(unique_categories))
+        selected_categories = st.multiselect('选择项目类别', list(unique_categories))
 
 
 
@@ -98,10 +98,10 @@ with st.expander("Filter View"):
 
 # Check if the filtered DataFrame is empty
 if filtered_df.empty:
-    st.write("No results match your search criteria.")
+    st.write("没有结果符合您的搜索条件。")
 else:
     # Expander
-    with st.expander("View Individual Projects"):
+    with st.expander("查看单一项目"):
         st.dataframe(filtered_df, hide_index=True)
 
     # Setting up the dashboard and viz
@@ -111,7 +111,7 @@ else:
         # Calculate the sum of the 'ID' column in the filtered dataframe
         total_ids = filtered_df['ID'].count()
         # Display the sum with thousand delimiter
-        st.metric(label="No. of Projects", value=f"{total_ids:,.0f}")
+        st.metric(label="项目数量", value=f"{total_ids:,.0f}")
                 
     with col2:
         # Convert 'Cost (millions)' column to numeric data type
@@ -119,7 +119,7 @@ else:
         # Calculate the sum of the 'Cost (millions)' column in the filtered dataframe
         total_cost = filtered_df['造价(百万)'].sum()
         # Display the sum with thousand delimiter
-        st.metric(label="造价(百万)", value=f"{total_cost:,.0f}", delta="excl. NaN", delta_color="off")
+        st.metric(label="造价(百万)", value=f"{total_cost:,.0f}", delta="暂无数据", delta_color="off")
 
     with col3:
         # Convert 'Building area (㎡)' column to numeric data type
@@ -127,17 +127,17 @@ else:
         # Calculate the sum of the 'Building area (㎡)' column in the filtered dataframe
         total_cost = filtered_df['建面(㎡)'].sum()
         # Display the sum with thousand delimiter
-        st.metric(label="建面(㎡)", value=f"{total_cost:,.0f}", delta="excl. NaN", delta_color="off")
+        st.metric(label="建面(㎡)", value=f"{total_cost:,.0f}", delta="暂无数据", delta_color="off")
 
     with col4:
         province_max_count = filtered_df['省份'].value_counts().idxmax()
         # Display the sum with thousand delimiter
-        st.metric(label="Province w. Most Projects", value=province_max_count)
+        st.metric(label="项目最多的省份", value=province_max_count)
 
     with col5:
         city_max_count = filtered_df['城市'].value_counts().idxmax()
         # Display the sum with thousand delimiter
-        st.metric(label="City w. Most Projects", value=city_max_count)
+        st.metric(label="项目最多的城市", value=city_max_count)
 
 
 
@@ -145,7 +145,7 @@ else:
 
     with col6:
         # Create a pie chart showing the distribution of project stages
-        fig = px.pie(filtered_df.groupby('项目阶段').size().reset_index(name='Count'), values='Count', names='项目阶段', title='Distribution of Observations by Stage of Project')
+        fig = px.pie(filtered_df.groupby('项目阶段').size().reset_index(name='Count'), values='Count', names='项目阶段', title='项目阶段分布占比')
         # Show the pie chart
         st.plotly_chart(fig, use_container_width=True)
 
@@ -153,7 +153,7 @@ else:
         # Create a new DataFrame for exploded categories without altering the original one
         exploded_df = filtered_df.assign(Category=filtered_df['行业分类'].str.split('/')).explode('行业分类')
         # Create a pie chart showing the distribution of categories
-        fig = px.pie(exploded_df.groupby('行业分类').size().reset_index(name='Count'), values='Count', names='行业分类', title='Distribution of Observations by Categories')
+        fig = px.pie(exploded_df.groupby('行业分类').size().reset_index(name='Count'), values='Count', names='行业分类', title='项目类别分布占比')
         # Show the pie chart
         st.plotly_chart(fig, use_container_width=True)
 
@@ -163,7 +163,7 @@ else:
         # Filter the dataframe to include only the top 10 provinces
         top_10_provinces = filtered_df['省份'].value_counts().nlargest(10).reset_index()
         # Create a bar chart showing the distribution of provinces
-        fig = px.bar(top_10_provinces, x='count', y='省份', title='Top 10 Provinces by Observation Count')
+        fig = px.bar(top_10_provinces, x='count', y='省份', title='项目最多省份排列')
         # Show the bar chart
         st.plotly_chart(fig, use_container_width=True)
 
@@ -171,7 +171,7 @@ else:
         # Filter the dataframe to include only the top 10 cities
         top_10_cities = filtered_df['城市'].value_counts().nlargest(10).reset_index()
         # Create a bar chart showing the distribution of cities
-        fig = px.bar(top_10_cities, x='count', y='城市', title='Top 10 Cities by Observation Count')
+        fig = px.bar(top_10_cities, x='count', y='城市', title='项目最多城市排列')
         # Show the bar chart
         st.plotly_chart(fig, use_container_width=True)
 
@@ -188,8 +188,8 @@ else:
     timeline_data = filtered_df.groupby('Announcement Time by Year and Month').size().reset_index(name='No. of Projects')
 
     # Create a line chart showing the distribution of announcements over time
-    fig = px.line(timeline_data, x='Announcement Time by Year and Month', y='No. of Projects', 
-                title='Distribution of Announcements Over Time')
+    fig = px.line(timeline_data, x='公布时间', y='项目数量', 
+                title='项目数量变化趋势')
 
     # Show the line chart
     st.plotly_chart(fig, use_container_width=True)
