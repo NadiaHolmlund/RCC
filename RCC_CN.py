@@ -20,7 +20,6 @@ def read_objects():
     df['ID'] = df['ID'].astype(str) 
     # Convert '公布时间' column to datetime format
     df['公布时间'] = pd.to_datetime(df['公布时间'])
-    df['公布时间'] = df['公布时间'].dt.date
     return df
 
 # Load the dataset
