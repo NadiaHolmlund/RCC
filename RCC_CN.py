@@ -85,7 +85,7 @@ with st.expander("筛选"):
     if text_search:
         filtered_df = filtered_df[filtered_df['项目名称'].str.contains(text_search)]
     if selected_years:
-        filtered_df = filtered_df[filtered_df['公布时间'].isin(selected_years)]
+        filtered_df = df[df['公布时间'].dt.year.isin(selected_years)]
     if selected_search_terms:
         filtered_df = filtered_df[filtered_df['搜索词'].isin(selected_search_terms)]
     if selected_regions:
