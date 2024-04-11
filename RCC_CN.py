@@ -57,6 +57,10 @@ with st.expander("筛选"):
         # Allow users to select multiple cities
         selected_cities = st.multiselect('选择城市', unique_cities)
 
+        # Filter by year
+        selected_year = st.slider('选择年份', min_value=2010, max_value=datetime.datetime.now().year, value=datetime.datetime.now().year)
+        filtered_df = df[df['公布时间'].dt.year == selected_year]
+
     with col2:
         # Get unique search terms
         unique_search_terms = df['搜索词'].unique()
