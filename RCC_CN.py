@@ -108,6 +108,7 @@ if filtered_df.empty:
 else:
     # Expander
     with st.expander("查看单一项目"):
+        filtered_df['公布时间'] = filtered_df['公布时间'].dt.date
         st.dataframe(filtered_df, hide_index=True)
 
     # Setting up the dashboard and viz
