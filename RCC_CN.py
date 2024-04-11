@@ -18,6 +18,8 @@ def read_objects():
     df = pd.read_csv('RCC_CN_with_coordinates.csv')   
     # Convert 'ID' column to string data type
     df['ID'] = df['ID'].astype(str) 
+    # Convert '公布时间' column to datetime format
+    df['公布时间'] = pd.to_datetime(df['公布时间'])
     return df
 
 # Load the dataset
