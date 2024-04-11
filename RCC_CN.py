@@ -29,20 +29,12 @@ df = read_objects()
 
 # Setting up the expander for filtering the dataset
 with st.expander("筛选"):
-
-    # Setting up the dashboard and viz
-
-    # Add a text input for free text search
-    text_search = st.text_input("搜索项目描述")
-
-    # Get unique years
-    unique_years = sorted(df['公布时间'].dt.year.unique())
-    # Allow users to select multiple years
-    selected_years = st.multiselect('选择年份', unique_years, default=[max(unique_years)])
-
     col1, col2 = st.columns(2)
 
     with col1:
+        # Add a text input for free text search
+        text_search = st.text_input("搜索项目描述")
+
         # Get unique areas
         unique_regions = df['区域'].unique()
         # Allow users to select multiple regions
@@ -64,13 +56,12 @@ with st.expander("筛选"):
         # Allow users to select multiple cities
         selected_cities = st.multiselect('选择城市', unique_cities)
 
-        # Filter by year
-        min_year = df['公布时间'].dt.year.min()
-        max_year = df['公布时间'].dt.year.max()
-        selected_year = st.slider('选择年份', min_value=min_year, max_value=max_year, value=max_year)
-        filtered_df = df[df['公布时间'].dt.year == selected_year]
-
     with col2:
+        # Get unique years
+        unique_years = sorted(df['公布时间'].dt.year.unique())
+        # Allow users to select multiple years
+        selected_years = st.multiselect('选择年份', unique_years, default=[max(unique_years)])
+
         # Get unique search terms
         unique_search_terms = df['搜索词'].unique()
         # Allow users to select multiple search terms
