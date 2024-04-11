@@ -35,6 +35,11 @@ with st.expander("筛选"):
     # Add a text input for free text search
     text_search = st.text_input("搜索项目描述")
 
+    # Get unique years
+    unique_years = sorted(df['公布时间'].dt.year.unique())
+    # Allow users to select multiple years
+    selected_years = st.multiselect('选择年份', unique_years, default=[max(unique_years)])
+
     col1, col2 = st.columns(2)
 
     with col1:
